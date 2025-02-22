@@ -6,13 +6,13 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/22 18:41:16 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/22 19:10:43 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hotrace.h"
 
-t_hashmap	*hashmap_new(int power, int chargefactor)
+t_hashmap	*hashmap_new(int power, double chargefactor)
 {
 	t_hashmap	*result;
 
@@ -26,6 +26,8 @@ t_hashmap	*hashmap_new(int power, int chargefactor)
 		free(result);
 		return (NULL);
 	}
+	result->count = 0;
+	result->charge_factor = chargefactor;
 	return (result);
 }
 
@@ -60,7 +62,9 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 {
 	size_t	index;
 
-	if ((double) map->count / map->size >= map->charge_factor)
+	if (!map)
+		return (0);
+	if ((double) map->count / map->size >= 10000)
 	{
 		if (!hashmap_resize(map->size << 1, map))
 			return (0);
@@ -68,7 +72,7 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 	index = key & (map->size - 1);
 	while (map->table[index].status != EMPTY && map->table[index].key != key)
 		index = (index + 1) & (map->size - 1);
-	if (map->table[index].status == EMPTY)
+	if (map->table[index].status != OCCUPIED)
 		map->count++;
 	map->table[index].key = key;
 	map->table[index].status = OCCUPIED;
@@ -78,8 +82,8 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 
 void	hashmap_free(t_hashmap *map, void (*del)(void *))
 {
-	int	index;
-	
+	size_t	index;
+
 	if (del)
 	{
 		index = 0;

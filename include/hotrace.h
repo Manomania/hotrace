@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:46 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/22 18:23:17 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/22 19:00:41 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct	s_hash_entry
 typedef struct	s_hashmap
 {
 	t_hash_entry	*table;
-	int				size;
+	size_t			size;
 	int				count;
 	double			charge_factor;
 }			t_hashmap;
@@ -61,7 +61,11 @@ typedef struct	s_hashmap
 *                             Function Prototypes                              *
 *******************************************************************************/
 
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-void	*ft_calloc(size_t el_count, size_t el_size);
+void		*ft_memcpy(void *dest, const void *src, size_t n);
+void		*ft_calloc(size_t el_count, size_t el_size);
 
+t_hashmap	*hashmap_new(int power, double chargefactor);
+int			hashmap_insert(unsigned long key, void *value, t_hashmap *map);
+int			hashmap_resize(size_t new_size, t_hashmap *map);
+void		hashmap_free(t_hashmap *map, void (*del)(void *));
 #endif

@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:34 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/22 17:38:10 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/22 19:01:44 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <asm-generic/errno-base.h>
 
-unsigned long	hash(unsigned char *str)
+unsigned long	hash(char *str)
 {
 	unsigned long	hash;
 	int				c;
@@ -57,4 +57,10 @@ char	*read_line(void)
 
 int	main(void)
 {
+	t_hashmap	*test;
+
+	test = hashmap_new(4, 0.7);
+	hashmap_insert(hash("Bonjour"), "OUIII", test);
+
+	hashmap_free(test, NULL);
 }

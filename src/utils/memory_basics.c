@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   memory_basics.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 14:18:36 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/22 17:28:07 by vdurand          ###   ########.fr       */
+/*   Created: 2025/02/22 18:51:15 by vdurand           #+#    #+#             */
+/*   Updated: 2025/02/22 18:51:50 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hotrace.h"
+
+void	*ft_memset(void *pointer, int value, size_t count)
+{
+	unsigned char	*c_pointer;
+	size_t			index;
+
+	c_pointer = (unsigned char *) pointer;
+	index = 0;
+	while (index < count)
+	{
+		c_pointer[index] = (unsigned char) value;
+		index++;
+	}
+	return (pointer);
+}
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
@@ -48,3 +63,4 @@ void	*ft_calloc(size_t el_count, size_t el_size)
 	ft_memset(temp, 0, size);
 	return (temp);
 }
+

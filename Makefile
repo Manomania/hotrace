@@ -6,22 +6,18 @@ AUTHOR				=	maximart && vdurand
 NAME				=	hotrace
 HEADER				=	$(INC_DIR)hotrace.h
 CC 					= 	cc
-CFLAGS 				= 	-Wall -Wextra -Werror
+CFLAGS 				= 	-Wall -Wextra -Werror -g3
 AR					=	ar rcs
 RM					=	rm -f
 
-SRC_F				=	hotrace \
-						utils
-SRC					=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_F)))
-OBJ 				= 	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_F)))
-
-########################################################################################################################
-#                                                      DIRECTORY                                                       #
-########################################################################################################################
+include	src_files.mk
 
 SRC_DIR				=	src/
 OBJ_DIR				=	obj/
 INC_DIR				=	include/
+
+SRC					=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_F)))
+OBJ 				= 	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_F)))
 
 ########################################################################################################################
 #                                                       TARGETS                                                        #
@@ -59,7 +55,7 @@ $(NAME):				$(OBJ)
 							@$(CC) $(CFLAGS) $(OBJ) -o $@
 
 $(OBJ_DIR)%.o: 			$(SRC_DIR)%.c $(HEADER)
-							@mkdir -p $(OBJ_DIR)
+							@mkdir -p $(dir $@)
 							@$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 							$(call PROGRESS_BAR_PERCENTAGE)
 							$(if $(filter $(COMPILED_SRCS),$(SRCS_TO_COMPILE)),$(call SEPARATOR))
