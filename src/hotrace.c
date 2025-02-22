@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:34 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/22 19:01:44 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/22 19:24:51 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ int	main(void)
 {
 	t_hashmap	*test;
 
-	test = hashmap_new(4, 0.7);
+	test = hashmap_new(2, 0.7);
 	hashmap_insert(hash("Bonjour"), "OUIII", test);
-
+	hashmap_insert(hash("Bsdfdsf"), "OUIII", test);
+	hashmap_insert(hash("hgfhfg"), "OUIII", test);
+	hashmap_insert(hash("hghgfhgfhfhfg"), "OUIII", test);
+	hashmap_print(test);
 	hashmap_free(test, NULL);
 }

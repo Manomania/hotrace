@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:46 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/22 19:00:41 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/22 19:21:31 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,6 @@ t_hashmap	*hashmap_new(int power, double chargefactor);
 int			hashmap_insert(unsigned long key, void *value, t_hashmap *map);
 int			hashmap_resize(size_t new_size, t_hashmap *map);
 void		hashmap_free(t_hashmap *map, void (*del)(void *));
+
+void		hashmap_print(t_hashmap *map);
 #endif
