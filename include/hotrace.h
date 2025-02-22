@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hotrace.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maximart <maximart@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:46 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/22 14:09:07 by maximart         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:12:55 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,39 @@
 # define YELLOW		"\033[093m"
 
 # define MSG_NOT_FND	": Not found.\n"
-# define TABLE_SIZE		1000
 # define BUFFER_SIZE	4096
 
 /*******************************************************************************
 *                                  Structures                                  *
 *******************************************************************************/
 
-typedef struct s_entry
+typedef enum	e_hash_status
 {
-	struct s_entry	*next;
-	unsigned char	*key;
-	int				value;
-}					t_entry;
+	EMPTY,
+	DESTROYED,
+	OCCUPIED
+}			t_hash_status;
 
-typedef struct s_table
+typedef struct	s_hash_entry
 {
-	t_entry	*table[TABLE_SIZE];
-}			t_table;
+	unsigned long	*key;
+	void			*value;
+	t_hash_status	status;
+}					t_hash_entry;
+
+typedef struct	s_hashmap
+{
+	t_hash_entry	*table;
+	int				size;
+	int				count;
+	double			charge_factor;
+}			t_hashmap;
 
 /*******************************************************************************
 *                             Function Prototypes                              *
 *******************************************************************************/
 
 void	*ft_memcpy(void *dest, const void *src, size_t n);
+void	*ft_calloc(size_t el_count, size_t el_size);
 
 #endif
