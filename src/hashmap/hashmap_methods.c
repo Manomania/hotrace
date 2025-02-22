@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/22 18:14:30 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/22 18:41:16 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,27 @@ t_hashmap	*hashmap_new(int power, int chargefactor)
 int	hashmap_resize(size_t new_size, t_hashmap *map)
 {
 	t_hash_entry	*new_table;
+	size_t			index;
+	size_t			hash_index;
 	
 	new_table =  ft_calloc(new_size + 1, sizeof(t_hash_entry));
 	if (!new_table)
 		return (0);
+	index = 0;
+	while (index < map->size)
+	{
+		if (map->table[index].status == OCCUPIED)
+		{
+			hash_index = map->table[index].key & (new_size - 1);
+			while (new_table[hash_index].status == OCCUPIED)
+				hash_index = (hash_index + 1) & (new_size - 1);
+			new_table[hash_index] = map->table[index];
+		}
+		index++;
+	}
+	free(map->table);
+	map->table = new_table;
+	map->size = new_size;
 	return (1);
 }
 
@@ -50,7 +67,7 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 	}
 	index = key & (map->size - 1);
 	while (map->table[index].status != EMPTY && map->table[index].key != key)
-		index = key & (map->size - 1);
+		index = (index + 1) & (map->size - 1);
 	if (map->table[index].status == EMPTY)
 		map->count++;
 	map->table[index].key = key;
@@ -68,8 +85,7 @@ void	hashmap_free(t_hashmap *map, void (*del)(void *))
 		index = 0;
 		while (index < map->size)
 		{
-			if (map->table[index].status == OCCUPIED
-			|| map->table[index].status == DESTROYED)
+			if (map->table[index].status == OCCUPIED)
 				del(map->table[index].value);
 			index++;
 		}

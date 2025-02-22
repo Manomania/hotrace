@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:46 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/22 18:12:55 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/22 18:23:17 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef enum	e_hash_status
 
 typedef struct	s_hash_entry
 {
-	unsigned long	*key;
+	unsigned long	key;
 	void			*value;
 	t_hash_status	status;
 }					t_hash_entry;
