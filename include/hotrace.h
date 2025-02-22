@@ -6,7 +6,7 @@
 /*   By: maximart <maximart@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:46 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/22 10:22:52 by maximart         ###   ########.fr       */
+/*   Updated: 2025/02/22 14:09:07 by maximart         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 # define MSG_NOT_FND	": Not found.\n"
 # define TABLE_SIZE		1000
+# define BUFFER_SIZE	4096
 
 /*******************************************************************************
 *                                  Structures                                  *
@@ -37,8 +38,8 @@
 
 typedef struct s_entry
 {
-	struct t_entry	*next;
-	char			*key;
+	struct s_entry	*next;
+	unsigned char	*key;
 	int				value;
 }					t_entry;
 
@@ -51,6 +52,6 @@ typedef struct s_table
 *                             Function Prototypes                              *
 *******************************************************************************/
 
-
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 
 #endif
