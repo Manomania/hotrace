@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:34 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/23 18:11:01 by val              ###   ########.fr       */
+/*   Updated: 2025/02/23 18:19:10 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,32 +66,6 @@ static int	read_key_value_pair(t_hashmap *map)
 	return (next == 0);
 }
 
-static int	process_input(void *result, char *line, t_hashmap *map)
-{
-	bool	need_free;
-
-	while (line)
-	{
-		need_free = 1;
-		delete_nl(line);
-		result = hashmap_search(hash(line), map);
-		if (!result)
-		{
-			printf("%s", line);
-			write(1, line, ft_strlen(line));
-			write(1, MSG_NOT_FND, 12);
-			need_free = 1;
-		}
-		else
-			write(1, (char *)result, ft_strlen(result));
-		write(1, "\n", 1);
-		if (need_free)
-			free(line);
-		line = get_next_line(STDIN_FILENO);
-	}
-	return (1);
-}
-
 static int	read_searchs(t_hashmap *map)
 {
 	char	*line;
@@ -101,8 +75,19 @@ static int	read_searchs(t_hashmap *map)
 	line = get_next_line(STDIN_FILENO);
 	while (line)
 	{
-		if (process_input(result, line, map))
-			return (1);
+		delete_nl(line);
+		result = hashmap_search(hash(line), map);
+		if (!result)
+		{
+			printf("%s", line);
+			write(1, line, ft_strlen(line));
+			write(1, MSG_NOT_FND, 12);
+		}
+		else
+			write(1, (char *)result, ft_strlen(result));
+		write(1, "\n", 1);
+		free(line);
+		line = get_next_line(STDIN_FILENO);
 	}
 	return (0);
 }
