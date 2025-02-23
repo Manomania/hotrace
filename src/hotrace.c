@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:34 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/23 18:19:10 by val              ###   ########.fr       */
+/*   Updated: 2025/02/23 18:41:01 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	read_searchs(t_hashmap *map)
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 	}
-	return (0);
+	return (1);
 }
 
 static int	try_insert(unsigned long key, void *value, t_hashmap *map)
