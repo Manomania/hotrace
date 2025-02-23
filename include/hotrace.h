@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:46 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/23 04:30:48 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 05:12:59 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,22 @@
 *                                  Structures                                  *
 *******************************************************************************/
 
-typedef enum	e_hash_status
+typedef enum e_hash_status
 {
 	EMPTY,
 	TOMBSTONE,
 	OCCUPIED
 }			t_hash_status;
 
-typedef struct	s_hash_entry
+typedef struct s_hash_entry
 {
 	unsigned long	key;
 	void			*value;
 	t_hash_status	status;
+	size_t			probe_distance;
 }					t_hash_entry;
 
-typedef struct	s_hashmap
+typedef struct s_hashmap
 {
 	t_hash_entry	*table;
 	size_t			size;

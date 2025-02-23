@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:13:44 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/23 04:11:52 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 05:42:14 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	hashmap_print(t_hashmap *map)
 	while (index < map->size)
 	{
 		if (map->table[index].status == OCCUPIED)
-			printf("|%zu| %zu:%s|\n", index, map->table[index].key, (char *)map->table[index].value);
+			printf("|%zu| %zu:%s|\n", index, \
+				map->table[index].key, (char *)map->table[index].value);
 		index++;
 	}
 }

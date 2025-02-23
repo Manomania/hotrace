@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:34 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/23 04:25:07 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 05:42:24 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(void)
 	t_hashmap	*test;
 	char		*text;
 
-	test = hashmap_new(2, 0.7);
+	test = hashmap_new(1, 0.7);
 	if (!test)
 		return (EXIT_FAILURE);
 	text = get_next_line(STDIN_FILENO);
@@ -60,7 +60,6 @@ int	main(void)
 			return (EXIT_FAILURE);
 		free(text);
 		text = get_next_line(STDIN_FILENO);
-		
 	}
 	printf("\n RESULT : %s\n%zu", (char *) hashmap_search(hash("Dino"), test), hash("Dino"));
 	hashmap_free(test, NULL);

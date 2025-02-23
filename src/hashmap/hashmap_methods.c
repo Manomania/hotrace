@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/23 04:35:07 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 05:42:06 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,29 @@
 int	hashmap_resize(size_t new_size, t_hashmap *map)
 {
 	t_hash_entry	*new_table;
+	t_hash_entry	*old_table;
+	size_t			old_size;
 	size_t			index;
-	size_t			hash_index;
 
-	new_table = ft_calloc(new_size + 1, sizeof(t_hash_entry));
+	new_table = ft_calloc(new_size, sizeof(t_hash_entry));
 	if (!new_table)
 		return (0);
-	index = 0;
-	while (index < map->size)
-	{
-		if (map->table[index].status == OCCUPIED)
-		{
-			hash_index = map->table[index].key & (new_size - 1);
-			while (new_table[hash_index].status == OCCUPIED)
-				hash_index = (hash_index + 1) & (new_size - 1);
-			new_table[hash_index] = map->table[index];
-		}
-		index++;
-	}
-	free(map->table);
+	old_table = map->table;
+	old_size = map->size;
 	map->table = new_table;
 	map->size = new_size;
+	index = 0;
+	while (index < old_size)
+	{
+		if (old_table[index].status == OCCUPIED)
+			hashmap_insert(old_table[index].key, old_table[index].value, map);
+		index++;
+	}
+	free(old_table);
 	return (1);
 }
+
+static inline void	swap(t_hash_entry *a, t_hash_entry *b);
 
 /**
  * @brief Inserts a key-value pair into the hashmap.
@@ -68,24 +68,31 @@ int	hashmap_resize(size_t new_size, t_hashmap *map)
  */
 int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 {
-	size_t	index;
+	size_t			pos;
+	t_hash_entry	last;
 
 	if (!map)
 		return (0);
-	if ((double) map->count / map->size >= map->charge_factor)
-	{
+	if ((double)(map->count + 1) / map->size >= map->charge_factor)
 		if (!hashmap_resize(map->size << 1, map))
 			return (0);
+	pos = key & (map->size - 1);
+	last = (t_hash_entry){.key = key, .value = value, \
+		.status = OCCUPIED, .probe_distance = 0};
+	while (1)
+	{
+		if (map->table[pos].status == EMPTY || map->table[pos].key == key)
+		{
+			if (map->table[pos].status == EMPTY)
+				map->count++;
+			map->table[pos] = last;
+			return (1);
+		}
+		if (last.probe_distance > map->table[pos].probe_distance)
+			swap(&last, &map->table[pos]);
+		last.probe_distance++;
+		pos = (pos + 1) & (map->size - 1);
 	}
-	index = key & (map->size - 1);
-	while (map->table[index].status != EMPTY && map->table[index].key != key)
-		index = (index + 1) & (map->size - 1);
-	if (map->table[index].status == EMPTY)
-		map->count++;
-	map->table[index].key = key;
-	map->table[index].status = OCCUPIED;
-	map->table[index].value = value;
-	return (1);
 }
 
 /**
@@ -101,22 +108,28 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
  */
 void	*hashmap_search(unsigned long key, t_hashmap *map)
 {
-	size_t	index;
-	size_t	start_index;
+	size_t	pos;
+	size_t	dist;
 
-	index = key & (map->size - 1);
-	start_index = index;
-	while (map->table[index].status != EMPTY)
+	dist = 0;
+	pos = key & (map->size - 1);
+	while (map->table[pos].status != EMPTY)
 	{
-		if (map->table[index].key == key)
-		{
-			return (map->table[index].value);
-		}
-		index = (index + 1) & (map->size - 1);
-		if (index == start_index)
-		{
-			break ;
-		}
+		if (map->table[pos].key == key)
+			return (map->table[pos].value);
+		if (dist > map->table[pos].probe_distance)
+			return (NULL);
+		pos = (pos + 1) & (map->size - 1);
+		dist++;
 	}
 	return (NULL);
+}
+
+static inline void	swap(t_hash_entry *a, t_hash_entry *b)
+{
+	t_hash_entry	temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
 }
