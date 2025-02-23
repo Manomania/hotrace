@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:12:44 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/23 04:07:56 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 06:49:46 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,21 @@ void	hashmap_free(t_hashmap *map, void (*del)(void *))
 	if (map->table)
 		free(map->table);
 	free(map);
+}
+
+unsigned long	hash(char *str)
+{
+	unsigned long	hash;
+	int				c;
+	int				i;
+
+	hash = 5381;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		c = str[i];
+		hash = ((hash << 5) + hash) + c;
+		i++;
+	}
+	return (hash);
 }

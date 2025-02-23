@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:46 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/23 05:12:59 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 07:07:08 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define GREEN		"\033[092m"
 # define YELLOW		"\033[093m"
 
-# define MSG_NOT_FND	": Not found.\n"
+# define MSG_NOT_FND	": Not found."
 # define BUFFER_SIZE	4096
 
 # define GNL_BUFFER_SIZE	1024
@@ -64,23 +64,25 @@ typedef struct s_hashmap
 *                             Function Prototypes                              *
 *******************************************************************************/
 
-void		*ft_memcpy(void *dest, const void *src, size_t n);
-void		*ft_calloc(size_t el_count, size_t el_size);
-void		ft_bzero(void *s, size_t n);
-void		*ft_memset(void *pointer, int value, size_t count);
+void			*ft_memcpy(void *dest, const void *src, size_t n);
+void			*ft_calloc(size_t el_count, size_t el_size);
+void			ft_bzero(void *s, size_t n);
+void			*ft_memset(void *pointer, int value, size_t count);
 
-size_t		ft_strlen(const char *str);
-char		*ft_strchr(const char *s, int c);
-char		*ft_strjoin(char const *s1, char const *s2);
-char		*ft_substr(char const *s, unsigned int start, size_t len);
+size_t			ft_strlen(const char *str);
+char			*ft_strchr(const char *s, int c);
+char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_substr(char const *s, unsigned int start, size_t len);
 
-char		*get_next_line(int fd);
+char			*get_next_line(int fd);
 
-t_hashmap	*hashmap_new(int power, double chargefactor);
-int			hashmap_insert(unsigned long key, void *value, t_hashmap *map);
-int			hashmap_resize(size_t new_size, t_hashmap *map);
-void		hashmap_free(t_hashmap *map, void (*del)(void *));
-void		*hashmap_search(unsigned long key, t_hashmap *map);
+t_hashmap		*hashmap_new(int power, double chargefactor);
+int				hashmap_insert(unsigned long key, void *value, t_hashmap *map);
+int				hashmap_resize(size_t new_size, t_hashmap *map);
+void			hashmap_free(t_hashmap *map, void (*del)(void *));
+void			*hashmap_search(unsigned long key, t_hashmap *map);
 
-void		hashmap_print(t_hashmap *map);
+void			hashmap_print(t_hashmap *map);
+
+unsigned long	hash(char *str);
 #endif
