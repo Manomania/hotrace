@@ -1,0 +1,31 @@
+
+Le programme fonctionne en tant que telle comme le sujet indique.
+Ya quelque soucis que jarrive pas a gerer totalement du genre :
+
+	- leak avec deux cles pareil pour une raison totalement inconnue ????
+	mais apparament ca viens directement du main ???? Je comprend pas
+	fichier de test de leak : leak_test.htr. Le resultat est par contre tout a fait bon.
+
+	- Tester en general avec des trucs border et regler deventuelle soucis.
+
+	- Voir si les mallocs sont protected et voir si mes fonctions ne sont pas faites
+	avec le cul en vrai chu fatigue (https://github.com/ralight/mallocfail)
+
+	- Sortie derreur avec strerror ? javais trop la flemme de limplementer mais au cas ou
+	cest ici
+
+	- Optimiser en vrai ? normalement ca va mais jai mis du caca un peu de partout ducoup
+	faut que je fasse ca
+
+En vrai normalement c'est fine aussi jai implementer le robin hood probbing
+(probbing = comment on enleve les trucs qui se superpose en gros je crois)
+cest rien de plus qun liner probbing sous steroide sauf que jai rien compris ducoup jsp.
+
+Desole davoir push dans le master ducoup ;)
+
+Aussi truc pas ouf cest la lecture actuelle de lentree standard jsp si cest ok ou bizarre
+parce que ya toujours le truc que mon GNL il fait pas la dif entre une ligne vide et un
+malloc qui fail vu que ca renvoit NULL ducoup cest border aussi :O 
+On peut prendre un autre GNL
+
+Sorry pour lorthographe tchao tchao
