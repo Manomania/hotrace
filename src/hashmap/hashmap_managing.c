@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:12:44 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/22 19:13:20 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 04:07:56 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,3 @@ void	hashmap_free(t_hashmap *map, void (*del)(void *))
 		free(map->table);
 	free(map);
 }
-

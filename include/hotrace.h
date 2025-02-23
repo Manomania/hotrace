@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:46 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/23 04:05:20 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 04:30:48 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 typedef enum	e_hash_status
 {
 	EMPTY,
-	DESTROYED,
+	TOMBSTONE,
 	OCCUPIED
 }			t_hash_status;
 

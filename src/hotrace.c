@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:34 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/23 03:38:21 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 04:25:07 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,16 @@ int	main(void)
 	if (!test)
 		return (EXIT_FAILURE);
 	text = get_next_line(STDIN_FILENO);
-	if (!try_insert(text, "Test", test))
-		return (EXIT_FAILURE);
 	while (text)
 	{
+		// On enleve le /n pour que ca puisse chercher pas necessaire
+		text[ft_strlen(text) - 1] = '\0';
 		if (!try_insert(text, "Test", test))
 			return (EXIT_FAILURE);
 		free(text);
 		text = get_next_line(STDIN_FILENO);
+		
 	}
+	printf("\n RESULT : %s\n%zu", (char *) hashmap_search(hash("Dino"), test), hash("Dino"));
 	hashmap_free(test, NULL);
 }

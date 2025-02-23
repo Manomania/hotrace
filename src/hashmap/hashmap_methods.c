@@ -6,19 +6,33 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/23 04:04:22 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 04:35:07 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hotrace.h"
 
+/**
+ * @brief Resizes the hashmap to a new size.
+ *
+ * This function resizes the hashmap's internal table 
+ * to a new size by reallocating memory.
+ * and rehashing existing entries into the new table. 
+ * It uses linear probing to handle collisions.
+ * The table is expanded when the number of entries 
+ * exceeds a load factor threshold.
+ *
+ * @param new_size The new size for the hashmap's internal table.
+ * @param map A pointer to the hashmap structure.
+ * @return 1 if resizing was successful, 0 otherwise.
+ */
 int	hashmap_resize(size_t new_size, t_hashmap *map)
 {
 	t_hash_entry	*new_table;
 	size_t			index;
 	size_t			hash_index;
 
-	new_table =  ft_calloc(new_size + 1, sizeof(t_hash_entry));
+	new_table = ft_calloc(new_size + 1, sizeof(t_hash_entry));
 	if (!new_table)
 		return (0);
 	index = 0;
@@ -39,6 +53,19 @@ int	hashmap_resize(size_t new_size, t_hashmap *map)
 	return (1);
 }
 
+/**
+ * @brief Inserts a key-value pair into the hashmap.
+ *
+ * This function inserts a new key-value pair into the hashmap. 
+ * If the key already exists, the value is updated. 
+ * The hashmap is resized automatically when the load factor exceeds the 
+ * specified charge factor. It uses linear probing to resolve collisions.
+ *
+ * @param key The key to be inserted.
+ * @param value The value associated with the key.
+ * @param map A pointer to the hashmap structure.
+ * @return 1 if the insertion was successful, 0 if an error occurred.
+ */
 int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 {
 	size_t	index;
@@ -61,6 +88,17 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 	return (1);
 }
 
+/**
+ * @brief Searches for a value associated with a key in the hashmap.
+ *
+ * This function searches the hashmap for the specified key. If the key is found,
+ * the associated value is returned. If the key is not present, NULL is returned.
+ * Linear probing is used to handle collisions.
+ *
+ * @param key The key to be searched for.
+ * @param map A pointer to the hashmap structure.
+ * @return A pointer to the value associated with the key, or NULL if not found.
+ */
 void	*hashmap_search(unsigned long key, t_hashmap *map)
 {
 	size_t	index;
@@ -77,7 +115,7 @@ void	*hashmap_search(unsigned long key, t_hashmap *map)
 		index = (index + 1) & (map->size - 1);
 		if (index == start_index)
 		{
-			break;
+			break ;
 		}
 	}
 	return (NULL);
