@@ -40,33 +40,75 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+static size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	char	*temp;
-	size_t	index;
-	size_t	pre_size;
+	size_t	i;
 
-	if (!s1 || !s2)
-		return (NULL);
-	pre_size = ft_strlen(s1);
-	temp = (char *)malloc(sizeof(char) * (pre_size + ft_strlen(s2) + 1));
-	if (!temp)
-		return (NULL);
-	index = 0;
-	while (s1[index])
+	if (!src || !dest)
+		return (0);
+	if (size == 0)
+		return (ft_strlen(src));
+	i = 0;
+	while (src[i] && (i < (size - 1)))
 	{
-		temp[index] = s1[index];
-		index++;
+		dest[i] = src[i];
+		i++;
 	}
-	index = 0;
-	while (s2[index])
-	{
-		temp[pre_size + index] = s2[index];
-		index++;
-	}
-	temp[pre_size + index] = '\0';
-	return (temp);
+	dest[i] = '\0';
+	return (ft_strlen(src));
 }
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*join;
+	size_t	len_s1;
+	size_t	len_s2;
+
+	if (!s1 && !s2)
+		return (NULL);
+	len_s1 = ft_strlen(s1);
+	len_s2 = 0;
+	while (s2[len_s2] != '\n' && s2[len_s2] != 0)
+		len_s2++;
+	if (s2[len_s2] == '\n')
+		len_s2++;
+	join = malloc(len_s1 + len_s2 + 1);
+	if (!join)
+		return (free(s1), NULL);
+	if (s1)
+		ft_strlcpy(join, s1, len_s1 + 1);
+	ft_strlcpy(join + len_s1, s2, len_s2 + 1);
+	free(s1);
+	return (join);
+}
+
+// char	*ft_strjoin(char const *s1, char const *s2)
+// {
+// 	char	*temp;
+// 	size_t	index;
+// 	size_t	pre_size;
+//
+// 	if (!s1 || !s2)
+// 		return (NULL);
+// 	pre_size = ft_strlen(s1);
+// 	temp = (char *)malloc(sizeof(char) * (pre_size + ft_strlen(s2) + 1));
+// 	if (!temp)
+// 		return (NULL);
+// 	index = 0;
+// 	while (s1[index])
+// 	{
+// 		temp[index] = s1[index];
+// 		index++;
+// 	}
+// 	index = 0;
+// 	while (s2[index])
+// 	{
+// 		temp[pre_size + index] = s2[index];
+// 		index++;
+// 	}
+// 	temp[pre_size + index] = '\0';
+// 	return (temp);
+// }
 
 static size_t	tmin(size_t m1, size_t m2)
 {
