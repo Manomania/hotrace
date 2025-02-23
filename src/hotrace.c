@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "hotrace.h"
-
 #include <asm-generic/errno-base.h>
 
 static int	try_insert(unsigned long key, void *value, t_hashmap *map);

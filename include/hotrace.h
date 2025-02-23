@@ -20,13 +20,8 @@
 *                                    Macros                                    *
 *******************************************************************************/
 
-# define RESET		"\033[039m"
-# define RED		"\033[091m"
-# define GREEN		"\033[092m"
-# define YELLOW		"\033[093m"
-
 # define MSG_NOT_FND	": Not found."
-# define BUFFER_SIZE	80
+# define BUFFER_SIZE	86
 # define HASHMAP_POWER	10
 # define HASHMAP_CHARGEFACTOR	0.7
 
