@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hotrace.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:46 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/23 07:07:08 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 17:40:50 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 
 # define MSG_NOT_FND	": Not found."
 # define BUFFER_SIZE	4096
-
-# define GNL_BUFFER_SIZE	1024
+# define HASHMAP_POWER	10
+# define HASHMAP_CHARGEFACTOR	0.7
 
 /*******************************************************************************
 *                                  Structures                                  *
@@ -79,7 +79,7 @@ int				hashmap_insert(unsigned long key, void *value, t_hashmap *map);
 void			ft_bzero(char *str);
 void			*ft_calloc(size_t el_count, size_t el_size);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
-void			*ft_memset(void *pointer, int value, size_t count);
+void			*ft_memset(void *ptr, int value, size_t count);
 
 // src/utils/string_basics.c
 char			*ft_strdup(const char *s);

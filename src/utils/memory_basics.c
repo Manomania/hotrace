@@ -3,28 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   memory_basics.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 18:51:15 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/23 02:59:42 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 17:40:38 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hotrace.h"
+#include <stdint.h>
 
-void	*ft_memset(void *pointer, int value, size_t count)
+void	*ft_memset(void *ptr, int value, size_t count)
 {
-	unsigned char	*c_pointer;
-	size_t			index;
+	unsigned char	*p;
+	unsigned char	val;
+	uint64_t		val64;
 
-	c_pointer = (unsigned char *) pointer;
-	index = 0;
-	while (index < count)
+	val = (unsigned char)value;
+	p = ptr;
+	while (((uintptr_t)p & 7) && count--)
+		*p++ = val;
+	val64 = (uint64_t)val | ((uint64_t)val << 8) | ((uint64_t)val << 16) \
+	| ((uint64_t)val << 24) | ((uint64_t)val << 48) | ((uint64_t)val << 56);
+	while (count >= 8)
 	{
-		c_pointer[index] = (unsigned char) value;
-		index++;
+		*(uint64_t *)p = val64;
+		p += 8;
+		count -= 8;
 	}
-	return (pointer);
+	while (count--)
+		*p++ = val;
+	return (ptr);
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)

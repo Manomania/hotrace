@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hotrace.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:34 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/23 07:12:11 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 17:39:25 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(void)
 {
 	t_hashmap	*map;
 
-	map = hashmap_new(10, 0.7);
+	map = hashmap_new(HASHMAP_POWER, HASHMAP_CHARGEFACTOR);
 	if (!map)
 		return (EXIT_FAILURE);
 	if (!read_key_value_pair(map))

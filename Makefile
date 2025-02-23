@@ -84,10 +84,7 @@ COMPILED_SRCS		=	0
 FRAMES				=	⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏
 SLEEP_FRAME			=	0.001
 
-SRCS_TO_COMPILE		=	$(shell find $(SRC_DIR) -type f -name "*.c" -newer $(NAME) 2>/dev/null | wc -l)
-ifeq ($(SRCS_TO_COMPILE),0)
-	SRCS_TO_COMPILE =	$(shell find $(SRC_DIR) -type f -name "*.c" 2>/dev/null | wc -l)
-endif
+SRCS_TO_COMPILE		=	$(words $(SRC))
 
 define PROGRESS_BAR_PERCENTAGE
 						$(eval COMPILED_SRCS := $(shell expr $(COMPILED_SRCS) + 1))
