@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:34 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/22 19:24:51 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 03:38:21 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,52 +18,48 @@ unsigned long	hash(char *str)
 {
 	unsigned long	hash;
 	int				c;
+	int				i;
 
 	hash = 5381;
-	c = 0;
-	while (*str++)
-		c = *str;
-	while (*str++)
+	i = 0;
+	while (str[i] != '\0')
+	{
+		c = str[i];
 		hash = ((hash << 5) + hash) + c;
+		i++;
+	}
 	return (hash);
 }
 
-char	*read_line(void)
+static int	try_insert(char *key, void *value, t_hashmap *map)
 {
-	int			ret;
-	int			i;
-	char		*line;
-	char		buffer[BUFFER_SIZE];
-	char		c;
-
-	i = 0;
-	ret = 1;
-	c = 0;
-	while (ret > 0 && c != '\n')
+	if (!hashmap_insert(hash(key), value, map))
 	{
-		ret = read(0, &c, 1);
-		if (i < BUFFER_SIZE - 1)
-			buffer[i++] = c;
-		if (ret <= 0 && i == 0)
-			return (NULL);
+		free(key);
+		hashmap_free(map, NULL);
+		return (0);
 	}
-	buffer[i] = '\0';
-	line = malloc(i + 1);
-	if (!line)
-		return (NULL);
-	ft_memcpy(line, buffer, i + 1);
-	return (line);
+	hashmap_print(map);
+	return (1);
 }
 
 int	main(void)
 {
 	t_hashmap	*test;
+	char		*text;
 
 	test = hashmap_new(2, 0.7);
-	hashmap_insert(hash("Bonjour"), "OUIII", test);
-	hashmap_insert(hash("Bsdfdsf"), "OUIII", test);
-	hashmap_insert(hash("hgfhfg"), "OUIII", test);
-	hashmap_insert(hash("hghgfhgfhfhfg"), "OUIII", test);
-	hashmap_print(test);
+	if (!test)
+		return (EXIT_FAILURE);
+	text = get_next_line(STDIN_FILENO);
+	if (!try_insert(text, "Test", test))
+		return (EXIT_FAILURE);
+	while (text)
+	{
+		if (!try_insert(text, "Test", test))
+			return (EXIT_FAILURE);
+		free(text);
+		text = get_next_line(STDIN_FILENO);
+	}
 	hashmap_free(test, NULL);
 }
