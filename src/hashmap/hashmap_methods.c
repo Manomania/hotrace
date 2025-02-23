@@ -64,10 +64,11 @@ static inline void	swap(t_hash_entry *a, t_hash_entry *b);
  * @param map A pointer to the hashmap structure.
  * @return 1 if successful, 0 on error.
  */
-int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
+int hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 {
 	size_t			pos;
 	t_hash_entry	last;
+	void			*old_value;
 
 	if (!map)
 		return (0);
@@ -83,6 +84,11 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 		{
 			if (map->table[pos].status == EMPTY)
 				map->count++;
+			else if (map->table[pos].key == key)
+			{
+				old_value = map->table[pos].value;
+				free(old_value);
+			}
 			map->table[pos] = last;
 			return (1);
 		}
@@ -92,6 +98,34 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 		pos = (pos + 1) & (map->size - 1);
 	}
 }
+// int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
+// {
+// 	size_t			pos;
+// 	t_hash_entry	last;
+//
+// 	if (!map)
+// 		return (0);
+// 	if ((double)(map->count + 1) / map->size >= map->charge_factor)
+// 		if (!hashmap_resize(map->size << 1, map))
+// 			return (0);
+// 	pos = key & (map->size - 1);
+// 	last = (t_hash_entry){.key = key, .value = value, \
+// 		.status = OCCUPIED, .probe_distance = 0};
+// 	while (1)
+// 	{
+// 		if (map->table[pos].status == EMPTY || map->table[pos].key == key)
+// 		{
+// 			if (map->table[pos].status == EMPTY)
+// 				map->count++;
+// 			map->table[pos] = last;
+// 			return (1);
+// 		}
+// 		if (last.probe_distance > map->table[pos].probe_distance)
+// 			swap(&last, &map->table[pos]);
+// 		last.probe_distance++;
+// 		pos = (pos + 1) & (map->size - 1);
+// 	}
+// }
 
 /**
  * @brief Searches for a key in the hashmap.
