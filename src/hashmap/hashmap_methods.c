@@ -6,25 +6,23 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/23 05:42:06 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 05:46:06 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hotrace.h"
 
 /**
- * @brief Resizes the hashmap to a new size.
+ * @brief Resizes the hashmap's internal table.
  *
- * This function resizes the hashmap's internal table 
- * to a new size by reallocating memory.
- * and rehashing existing entries into the new table. 
- * It uses linear probing to handle collisions.
- * The table is expanded when the number of entries 
- * exceeds a load factor threshold.
+ * Allocates a new table, rehashes existing entries, 
+ * and uses linear probing 
+ * for collisions. The table is expanded if the load 
+ * factor threshold is exceeded.
  *
- * @param new_size The new size for the hashmap's internal table.
+ * @param new_size The new table size.
  * @param map A pointer to the hashmap structure.
- * @return 1 if resizing was successful, 0 otherwise.
+ * @return 1 if successful, 0 otherwise.
  */
 int	hashmap_resize(size_t new_size, t_hashmap *map)
 {
@@ -56,15 +54,15 @@ static inline void	swap(t_hash_entry *a, t_hash_entry *b);
 /**
  * @brief Inserts a key-value pair into the hashmap.
  *
- * This function inserts a new key-value pair into the hashmap. 
- * If the key already exists, the value is updated. 
- * The hashmap is resized automatically when the load factor exceeds the 
- * specified charge factor. It uses linear probing to resolve collisions.
+ * If the key already exists, updates the value. 
+ * Resizes the hashmap if the load factor 
+ * exceeds the threshold. Linear probing resolves 
+ * collisions with robin hood opti.
  *
- * @param key The key to be inserted.
- * @param value The value associated with the key.
+ * @param key The key to insert.
+ * @param value The associated value.
  * @param map A pointer to the hashmap structure.
- * @return 1 if the insertion was successful, 0 if an error occurred.
+ * @return 1 if successful, 0 on error.
  */
 int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 {
@@ -96,15 +94,15 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 }
 
 /**
- * @brief Searches for a value associated with a key in the hashmap.
+ * @brief Searches for a key in the hashmap.
  *
- * This function searches the hashmap for the specified key. If the key is found,
- * the associated value is returned. If the key is not present, NULL is returned.
- * Linear probing is used to handle collisions.
+ * Returns the value associated with the key, 
+ * or NULL if the key is not found. 
+ * Linear probing resolves collisions with robin hood opti.
  *
- * @param key The key to be searched for.
+ * @param key The key to search for.
  * @param map A pointer to the hashmap structure.
- * @return A pointer to the value associated with the key, or NULL if not found.
+ * @return The associated value, or NULL if not found.
  */
 void	*hashmap_search(unsigned long key, t_hashmap *map)
 {
