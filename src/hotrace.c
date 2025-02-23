@@ -79,7 +79,6 @@ static int	read_searchs(t_hashmap *map)
 		result = hashmap_search(hash(line), map);
 		if (!result)
 		{
-			printf("%s", line);
 			write(1, line, ft_strlen(line));
 			write(1, MSG_NOT_FND, 12);
 		}

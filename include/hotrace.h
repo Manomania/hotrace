@@ -15,10 +15,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <string.h>
-# include <stdbool.h>
-
-# include <stdio.h>
 
 /*******************************************************************************
 *                                    Macros                                    *
@@ -30,7 +26,7 @@
 # define YELLOW		"\033[093m"
 
 # define MSG_NOT_FND	": Not found."
-# define BUFFER_SIZE	64
+# define BUFFER_SIZE	80
 # define HASHMAP_POWER	10
 # define HASHMAP_CHARGEFACTOR	0.7
 
@@ -78,8 +74,8 @@ int				hashmap_insert(unsigned long key, void *value, t_hashmap *map);
 // src/hashmap/memory_basics.c
 void			ft_bzero(char *str);
 void			*ft_calloc(size_t el_count, size_t el_size);
-void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			*ft_memset(void *ptr, int value, size_t count);
+void			*ft_memcpy(void *dest, const void *src, size_t n);
 
 // src/utils/string_basics.c
 char			*ft_strdup(const char *s);
