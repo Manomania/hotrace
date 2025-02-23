@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_basics.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 03:02:24 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/23 03:07:42 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/02/23 18:12:11 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *str)
 {
 	int	index;
 
+	if (!str)
+		return (0);
 	index = 0;
 	while (str[index])
 		index++;

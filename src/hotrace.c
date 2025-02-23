@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:34 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/23 17:39:25 by val              ###   ########.fr       */
+/*   Updated: 2025/02/23 18:11:01 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 static int	try_insert(unsigned long key, void *value, t_hashmap *map);
 static int	read_key_value_pair(t_hashmap *map);
 static int	read_searchs(t_hashmap *map);
-static int	process_input(void *result, char *temp, char *line, t_hashmap *map);
 
 int	main(void)
 {
@@ -67,7 +66,7 @@ static int	read_key_value_pair(t_hashmap *map)
 	return (next == 0);
 }
 
-static int	process_input(void *result, char *temp, char *line, t_hashmap *map)
+static int	process_input(void *result, char *line, t_hashmap *map)
 {
 	bool	need_free;
 
@@ -78,12 +77,10 @@ static int	process_input(void *result, char *temp, char *line, t_hashmap *map)
 		result = hashmap_search(hash(line), map);
 		if (!result)
 		{
-			temp = ft_strjoin(line, MSG_NOT_FND);
-			if (!temp)
-				return (free(line), 0);
-			write(1, temp, ft_strlen(temp));
-			free(temp);
-			need_free = 0;
+			printf("%s", line);
+			write(1, line, ft_strlen(line));
+			write(1, MSG_NOT_FND, 12);
+			need_free = 1;
 		}
 		else
 			write(1, (char *)result, ft_strlen(result));
@@ -98,18 +95,16 @@ static int	process_input(void *result, char *temp, char *line, t_hashmap *map)
 static int	read_searchs(t_hashmap *map)
 {
 	char	*line;
-	char	*temp;
 	void	*result;
 
-	temp = NULL;
 	result = NULL;
 	line = get_next_line(STDIN_FILENO);
 	while (line)
 	{
-		if (process_input(result, temp, line, map))
-			return (0);
+		if (process_input(result, line, map))
+			return (1);
 	}
-	return (1);
+	return (0);
 }
 
 static int	try_insert(unsigned long key, void *value, t_hashmap *map)
