@@ -82,6 +82,30 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (join);
 }
 
+char	*ft_strdup(const char *s)
+{
+	char	*dup;
+	size_t	s_len;
+	size_t	i;
+
+	s_len = 0;
+	while (s[s_len] != '\n' && s[s_len] != 0)
+		s_len++;
+	if (s[s_len] == '\n')
+		s_len++;
+	dup = (char *)malloc(sizeof(char) * (s_len + 1));
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (i < s_len)
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
 // char	*ft_strjoin(char const *s1, char const *s2)
 // {
 // 	char	*temp;

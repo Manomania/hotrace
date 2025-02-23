@@ -64,15 +64,14 @@ void	*ft_calloc(size_t el_count, size_t el_size)
 	return (temp);
 }
 
-// void	ft_bzero(void *s, size_t n)
-// {
-// 	unsigned char	*o;
-//
-// 	o = (unsigned char *) s;
-// 	while (n)
-// 	{
-// 		*o = 0;
-// 		o++;
-// 		n--;
-// 	}
-// }
+void	ft_bzero(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != 0)
+	{
+		str[i] = 0;
+		i++;
+	}
+}

@@ -39,7 +39,7 @@ int	main(void)
 	hashmap_free(map, free);
 }
 
-static int	read_key_value_pair(t_hashmap *map)
+static int read_key_value_pair(t_hashmap *map)
 {
 	int				next;
 	char			*line;
@@ -47,36 +47,71 @@ static int	read_key_value_pair(t_hashmap *map)
 
 	next = 0;
 	line = get_next_line(STDIN_FILENO);
-	while (line && ft_strlen(line) > 1)
+	while (line)
 	{
+		if (ft_strlen(line) <= 1)
+		{
+			free(line);
+			break;
+		}
 		delete_nl(line);
 		if (next == 0)
+		{
 			key = hash(line);
-		if (next == 1)
+			free(line);
+		}
+		else if (next == 1)
 		{
 			if (!try_insert(key, line, map))
-				return (EXIT_FAILURE);
-			next = 0;
-			line = get_next_line(STDIN_FILENO);
-			continue ;
+				return (0);
+			next = -1;
 		}
-		free(line);
 		line = get_next_line(STDIN_FILENO);
 		next++;
 	}
-	free(line);
 	return (next == 0);
 }
 
-static int	read_searchs(t_hashmap *map)
+// static int	read_key_value_pair(t_hashmap *map)
+// {
+// 	int				next;
+// 	char			*line;
+// 	unsigned long	key;
+//
+// 	next = 0;
+// 	line = get_next_line(STDIN_FILENO);
+// 	while (line && ft_strlen(line) > 1)
+// 	{
+// 		delete_nl(line);
+// 		if (next == 0)
+// 			key = hash(line);
+// 		if (next == 1)
+// 		{
+// 			if (!try_insert(key, line, map))
+// 				return (EXIT_FAILURE);
+// 			next = 0;
+// 			line = get_next_line(STDIN_FILENO);
+// 			continue ;
+// 		}
+// 		free(line);
+// 		line = get_next_line(STDIN_FILENO);
+// 		next++;
+// 	}
+// 	free(line);
+// 	return (next == 0);
+// }
+
+static int read_searchs(t_hashmap *map)
 {
-	char	*temp;
 	char	*line;
+	char	*temp;
 	void	*result;
+	int		need_free;
 
 	line = get_next_line(STDIN_FILENO);
 	while (line)
 	{
+		need_free = 1;
 		delete_nl(line);
 		result = hashmap_search(hash(line), map);
 		if (!result)
@@ -86,15 +121,45 @@ static int	read_searchs(t_hashmap *map)
 				return (free(line), 0);
 			write(1, temp, ft_strlen(temp));
 			free(temp);
+			need_free = 0;
 		}
 		else
-			write(1, (char *) result, ft_strlen(result));
+			write(1, (char *)result, ft_strlen(result));
 		write(1, "\n", 1);
-		free(line);
+		if (need_free)
+			free(line);  // NEEDS TO BE FREE IF EXIST (OLD LEAK)
 		line = get_next_line(STDIN_FILENO);
 	}
 	return (1);
 }
+
+// static int	read_searchs(t_hashmap *map)
+// {
+// 	char	*temp;
+// 	char	*line;
+// 	void	*result;
+//
+// 	line = get_next_line(STDIN_FILENO);
+// 	while (line)
+// 	{
+// 		delete_nl(line);
+// 		result = hashmap_search(hash(line), map);
+// 		if (!result)
+// 		{
+// 			temp = ft_strjoin(line, MSG_NOT_FND);
+// 			if (!temp)
+// 				return (free(line), 0);
+// 			write(1, temp, ft_strlen(temp));
+// 			free(temp);
+// 		}
+// 		else
+// 			write(1, (char *) result, ft_strlen(result));
+// 		write(1, "\n", 1);
+// 		// free(line);   // LEAK SI NOT FOUND A CAUSE DU FREE
+// 		line = get_next_line(STDIN_FILENO);
+// 	}
+// 	return (1);
+// }
 
 static void delete_nl(char *str)
 {
