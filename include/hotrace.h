@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 10:22:46 by maximart          #+#    #+#             */
-/*   Updated: 2025/02/23 17:40:50 by val              ###   ########.fr       */
+/*   Updated: 2025/02/23 18:30:39 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define YELLOW		"\033[093m"
 
 # define MSG_NOT_FND	": Not found."
-# define BUFFER_SIZE	4096
+# define BUFFER_SIZE	64
 # define HASHMAP_POWER	10
 # define HASHMAP_CHARGEFACTOR	0.7
 

@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:12:44 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/23 18:12:07 by val              ###   ########.fr       */
+/*   Updated: 2025/02/23 18:31:57 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,20 @@ void	hashmap_free(t_hashmap *map, void (*del)(void *))
 	free(map);
 }
 
+/*FNV-1a (Fowler-Noll-Vo) Hash*/
 unsigned long	hash(char *str)
 {
 	unsigned long	hash;
 	int				c;
 	int				i;
 
-	hash = 5381;
+	hash = 0x811c9dc5;
 	i = 0;
 	while (str[i] != '\0')
 	{
 		c = str[i];
-		hash = ((hash << 5) + hash) + c;
+		hash ^= c;
+		hash *= 0x01000193;
 		i++;
 	}
 	return (hash);
