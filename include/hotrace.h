@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+# include <stdbool.h>
 
 # include <stdio.h>
 
@@ -64,26 +65,34 @@ typedef struct s_hashmap
 *                             Function Prototypes                              *
 *******************************************************************************/
 
-void			*ft_memcpy(void *dest, const void *src, size_t n);
-void			*ft_calloc(size_t el_count, size_t el_size);
+// src/hashmap/hashmap_managing.c
+unsigned long	hash(char *str);
+t_hashmap		*hashmap_new(int power, double chargefactor);
+void			hashmap_free(t_hashmap *map, void (*del)(void *));
+
+// src/hashmap/hashmap_methods.c
+int				hashmap_resize(size_t new_size, t_hashmap *map);
+void			*hashmap_search(unsigned long key, t_hashmap *map);
+int				hashmap_insert(unsigned long key, void *value, t_hashmap *map);
+
+// src/hashmap/memory_basics.c
 void			ft_bzero(char *str);
+void			*ft_calloc(size_t el_count, size_t el_size);
+void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			*ft_memset(void *pointer, int value, size_t count);
 
-size_t			ft_strlen(const char *str);
+// src/utils/string_basics.c
 char			*ft_strdup(const char *s);
-char			*ft_strchr(const char *s, int c);
+size_t			ft_strlen(const char *str);
 char			*ft_strjoin(char *s1, char *s2);
+char			*ft_strchr(const char *s, int c);
+
+// src/utils/string_basics2.c
+void			delete_nl(char *str);
+size_t			tmin(size_t m1, size_t m2);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 
+// src/get_next_line.c
 char			*get_next_line(int fd);
-
-t_hashmap		*hashmap_new(int power, double chargefactor);
-int				hashmap_insert(unsigned long key, void *value, t_hashmap *map);
-int				hashmap_resize(size_t new_size, t_hashmap *map);
-void			hashmap_free(t_hashmap *map, void (*del)(void *));
-void			*hashmap_search(unsigned long key, t_hashmap *map);
-
-void			hashmap_print(t_hashmap *map);
-
-unsigned long	hash(char *str);
+int				ft_check_line(char *str);
 #endif

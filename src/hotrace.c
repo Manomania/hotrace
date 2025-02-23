@@ -17,7 +17,7 @@
 static int	try_insert(unsigned long key, void *value, t_hashmap *map);
 static int	read_key_value_pair(t_hashmap *map);
 static int	read_searchs(t_hashmap *map);
-static void delete_nl(char *str);
+static int	process_input(void *result, char *temp, char *line, t_hashmap *map);
 
 int	main(void)
 {
@@ -39,7 +39,7 @@ int	main(void)
 	hashmap_free(map, free);
 }
 
-static int read_key_value_pair(t_hashmap *map)
+static int	read_key_value_pair(t_hashmap *map)
 {
 	int				next;
 	char			*line;
@@ -52,63 +52,25 @@ static int read_key_value_pair(t_hashmap *map)
 		if (ft_strlen(line) <= 1)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		delete_nl(line);
 		if (next == 0)
-		{
 			key = hash(line);
+		else if (next == 1 && !try_insert(key, line, map))
+			return (0);
+		if (next != 1)
 			free(line);
-		}
-		else if (next == 1)
-		{
-			if (!try_insert(key, line, map))
-				return (0);
-			next = -1;
-		}
 		line = get_next_line(STDIN_FILENO);
-		next++;
+		next = (next + 1) % 2;
 	}
 	return (next == 0);
 }
 
-// static int	read_key_value_pair(t_hashmap *map)
-// {
-// 	int				next;
-// 	char			*line;
-// 	unsigned long	key;
-//
-// 	next = 0;
-// 	line = get_next_line(STDIN_FILENO);
-// 	while (line && ft_strlen(line) > 1)
-// 	{
-// 		delete_nl(line);
-// 		if (next == 0)
-// 			key = hash(line);
-// 		if (next == 1)
-// 		{
-// 			if (!try_insert(key, line, map))
-// 				return (EXIT_FAILURE);
-// 			next = 0;
-// 			line = get_next_line(STDIN_FILENO);
-// 			continue ;
-// 		}
-// 		free(line);
-// 		line = get_next_line(STDIN_FILENO);
-// 		next++;
-// 	}
-// 	free(line);
-// 	return (next == 0);
-// }
-
-static int read_searchs(t_hashmap *map)
+static int	process_input(void *result, char *temp, char *line, t_hashmap *map)
 {
-	char	*line;
-	char	*temp;
-	void	*result;
-	int		need_free;
+	bool	need_free;
 
-	line = get_next_line(STDIN_FILENO);
 	while (line)
 	{
 		need_free = 1;
@@ -127,47 +89,27 @@ static int read_searchs(t_hashmap *map)
 			write(1, (char *)result, ft_strlen(result));
 		write(1, "\n", 1);
 		if (need_free)
-			free(line);  // NEEDS TO BE FREE IF EXIST (OLD LEAK)
+			free(line);
 		line = get_next_line(STDIN_FILENO);
 	}
 	return (1);
 }
 
-// static int	read_searchs(t_hashmap *map)
-// {
-// 	char	*temp;
-// 	char	*line;
-// 	void	*result;
-//
-// 	line = get_next_line(STDIN_FILENO);
-// 	while (line)
-// 	{
-// 		delete_nl(line);
-// 		result = hashmap_search(hash(line), map);
-// 		if (!result)
-// 		{
-// 			temp = ft_strjoin(line, MSG_NOT_FND);
-// 			if (!temp)
-// 				return (free(line), 0);
-// 			write(1, temp, ft_strlen(temp));
-// 			free(temp);
-// 		}
-// 		else
-// 			write(1, (char *) result, ft_strlen(result));
-// 		write(1, "\n", 1);
-// 		// free(line);   // LEAK SI NOT FOUND A CAUSE DU FREE
-// 		line = get_next_line(STDIN_FILENO);
-// 	}
-// 	return (1);
-// }
-
-static void delete_nl(char *str)
+static int	read_searchs(t_hashmap *map)
 {
-	size_t	size;
+	char	*line;
+	char	*temp;
+	void	*result;
 
-	size = ft_strlen(str);
-	if (str[size - 1] == '\n')
-		str[size - 1] = '\0';
+	temp = NULL;
+	result = NULL;
+	line = get_next_line(STDIN_FILENO);
+	while (line)
+	{
+		if (process_input(result, temp, line, map))
+			return (0);
+	}
+	return (1);
 }
 
 static int	try_insert(unsigned long key, void *value, t_hashmap *map)

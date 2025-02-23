@@ -23,7 +23,8 @@ void	hashmap_print(t_hashmap *map)
 	while (index < map->size)
 	{
 		if (map->table[index].status == OCCUPIED)
-			printf("|%zu| %zu:%s|\n", index, map->table[index].key, (char *)map->table[index].value);
+			printf("|%zu| %zu:%s|\n", index, map->table[index].key,
+				(char *)map->table[index].value);
 		index++;
 	}
 }
